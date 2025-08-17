@@ -8,5 +8,11 @@ export default defineConfig({
     alias: { '@': fileURLToPath(new URL('./src', import.meta.url)) }
   },
   base: '/',
-  build: { outDir: 'dist', emptyOutDir: true }
+  build: {
+    outDir: 'dist',
+    emptyOutDir: true,
+    rollupOptions: {
+      external: ['react-is'] // ensure Rollup doesn't choke on recharts -> react-is
+    }
+  }
 })
