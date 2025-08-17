@@ -6,3 +6,9 @@
     { "path": "./tsconfig.worker.json" }
   ]
 }
+{
+  "exclude": ["src/worker/**"],
+  "compilerOptions": {
+    // … keep the rest as it is
+  }
+}
