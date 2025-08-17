@@ -17,6 +17,7 @@
     "react-router": "^7.5.3",
     "react-router-dom": "^7.5.3",
     "recharts": "^3.1.2",
+    "react-is": "^18.2.0",
     "zod": "^3.24.3"
   },
   "devDependencies": {
