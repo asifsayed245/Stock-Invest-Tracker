@@ -36,12 +36,11 @@
     "@cloudflare/workers-types": "^4.20250204.0"
   },
   "scripts": {
-    "build": "tsc -b && vite build",
-    "cf-typegen": "wrangler types",
-    "check": "tsc && vite build && wrangler deploy --dry-run",
-    "dev": "vite",
-    "lint": "eslint ."
-  },
+  "dev": "vite",
+  "build": "vite build",
+  "preview": "vite preview",
+  "typecheck": "tsc -b --pretty"
+},
   "engines": {
     "node": ">=18 <=22"
   }
