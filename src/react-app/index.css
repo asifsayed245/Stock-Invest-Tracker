@@ -2,6 +2,5 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Optional minimal tweaks */
 html, body, #root { height: 100%; }
 body { @apply bg-slate-50 text-slate-900; }
