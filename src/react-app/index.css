@@ -1,6 +1,7 @@
-/* Minimal stylesheet to satisfy "@/react-app/index.css" import.
-   Keep or replace with your real styles later. */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-:root { --hw-bg: #f7f9fb; }
+/* Optional minimal tweaks */
 html, body, #root { height: 100%; }
-body { margin: 0; background: var(--hw-bg); }
+body { @apply bg-slate-50 text-slate-900; }
