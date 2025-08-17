@@ -1,0 +1,4 @@
+Updated types path in tsconfig.worker.json
+Added @cloudflare/workers-types to devDependencies
+Pinned engines.node to >=18 <=22
+Added fallback worker-configuration.d.ts stub

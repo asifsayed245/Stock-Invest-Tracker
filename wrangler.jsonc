@@ -1,0 +1,21 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "0198b6a5-f068-7efa-b476-419ff7e46e5e",
+  "main": "./src/worker/index.ts",
+  "compatibility_date": "2025-06-17",
+  "compatibility_flags": ["nodejs_compat"],
+  "observability": {
+    "enabled": true,
+  },
+  "upload_source_maps": true,
+  "assets": {
+    "not_found_handling": "single-page-application",
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "0198b6a5-f068-7efa-b476-419ff7e46e5e",
+      "database_id": "0198b6a5-f068-7efa-b476-419ff7e46e5e",
+    },
+  ],
+}
