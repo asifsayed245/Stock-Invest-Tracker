@@ -1,0 +1,46 @@
+
+-- Add Indian stock data
+INSERT INTO instruments (symbol, exchange, name, currency, status) VALUES
+('RELIANCE', 'NSE', 'Reliance Industries Limited', 'INR', 'active'),
+('TCS', 'NSE', 'Tata Consultancy Services Limited', 'INR', 'active'),
+('HDFCBANK', 'NSE', 'HDFC Bank Limited', 'INR', 'active'),
+('HINDUNILVR', 'NSE', 'Hindustan Unilever Limited', 'INR', 'active'),
+('INFY', 'NSE', 'Infosys Limited', 'INR', 'active'),
+('ICICIBANK', 'NSE', 'ICICI Bank Limited', 'INR', 'active'),
+('HDFC', 'NSE', 'Housing Development Finance Corporation Limited', 'INR', 'active'),
+('ITC', 'NSE', 'ITC Limited', 'INR', 'active'),
+('KOTAKBANK', 'NSE', 'Kotak Mahindra Bank Limited', 'INR', 'active'),
+('LT', 'NSE', 'Larsen & Toubro Limited', 'INR', 'active'),
+('SBIN', 'NSE', 'State Bank of India', 'INR', 'active'),
+('BHARTIARTL', 'NSE', 'Bharti Airtel Limited', 'INR', 'active'),
+('AXISBANK', 'NSE', 'Axis Bank Limited', 'INR', 'active'),
+('MARUTI', 'NSE', 'Maruti Suzuki India Limited', 'INR', 'active'),
+('ASIANPAINT', 'NSE', 'Asian Paints Limited', 'INR', 'active'),
+('BAJFINANCE', 'NSE', 'Bajaj Finance Limited', 'INR', 'active'),
+('WIPRO', 'NSE', 'Wipro Limited', 'INR', 'active'),
+('NESTLEIND', 'NSE', 'Nestle India Limited', 'INR', 'active'),
+('ULTRACEMCO', 'NSE', 'UltraTech Cement Limited', 'INR', 'active'),
+('TITAN', 'NSE', 'Titan Company Limited', 'INR', 'active'),
+('POWERGRID', 'NSE', 'Power Grid Corporation of India Limited', 'INR', 'active'),
+('NTPC', 'NSE', 'NTPC Limited', 'INR', 'active'),
+('TECHM', 'NSE', 'Tech Mahindra Limited', 'INR', 'active'),
+('HCLTECH', 'NSE', 'HCL Technologies Limited', 'INR', 'active'),
+('JSWSTEEL', 'NSE', 'JSW Steel Limited', 'INR', 'active'),
+('TATAMOTORS', 'NSE', 'Tata Motors Limited', 'INR', 'active'),
+('ADANIPORTS', 'NSE', 'Adani Ports and Special Economic Zone Limited', 'INR', 'active'),
+('COALINDIA', 'NSE', 'Coal India Limited', 'INR', 'active'),
+('INDUSINDBK', 'NSE', 'IndusInd Bank Limited', 'INR', 'active'),
+('SUNPHARMA', 'NSE', 'Sun Pharmaceutical Industries Limited', 'INR', 'active');
+
+-- Add sample prices for Indian stocks
+INSERT INTO prices_eod (instrument_id, date, close, adjusted_close, source) VALUES
+((SELECT id FROM instruments WHERE symbol = 'RELIANCE' LIMIT 1), '2025-08-16', 2450.50, 2450.50, 'manual'),
+((SELECT id FROM instruments WHERE symbol = 'TCS' LIMIT 1), '2025-08-16', 3850.75, 3850.75, 'manual'),
+((SELECT id FROM instruments WHERE symbol = 'HDFCBANK' LIMIT 1), '2025-08-16', 1680.25, 1680.25, 'manual'),
+((SELECT id FROM instruments WHERE symbol = 'HINDUNILVR' LIMIT 1), '2025-08-16', 2620.00, 2620.00, 'manual'),
+((SELECT id FROM instruments WHERE symbol = 'INFY' LIMIT 1), '2025-08-16', 1890.30, 1890.30, 'manual'),
+((SELECT id FROM instruments WHERE symbol = 'ICICIBANK' LIMIT 1), '2025-08-16', 1280.60, 1280.60, 'manual'),
+((SELECT id FROM instruments WHERE symbol = 'ITC' LIMIT 1), '2025-08-16', 485.90, 485.90, 'manual'),
+((SELECT id FROM instruments WHERE symbol = 'KOTAKBANK' LIMIT 1), '2025-08-16', 1950.40, 1950.40, 'manual'),
+((SELECT id FROM instruments WHERE symbol = 'LT' LIMIT 1), '2025-08-16', 3680.20, 3680.20, 'manual'),
+((SELECT id FROM instruments WHERE symbol = 'SBIN' LIMIT 1), '2025-08-16', 820.15, 820.15, 'manual');

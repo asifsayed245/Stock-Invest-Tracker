@@ -1,0 +1,10 @@
+This is a Netlify‑ready replacement preserving your Mocha app's UI and styling.
+
+Changes applied:
+- public/_redirects added for SPA routing.
+- vite.config.* ensured to import @vitejs/plugin-react and export a minimal config.
+- package.json scripts normalized (build = vite build), added @vitejs/plugin-react, pinned Node.
+- tsconfig.json excludes src/worker/** and includes vite/client types.
+- netlify.toml added as a backup redirect config.
+
+No pages/components/styles were removed.
