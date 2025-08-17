@@ -1,0 +1,7 @@
+
+Netlify patch applied to your Mocha app. UI/components/styles are preserved.
+Changes:
+- Added public/_redirects and netlify.toml for SPA routing
+- Vite config uses @vitejs/plugin-react; ensures build.outDir = "dist"
+- package.json scripts normalized; added @vitejs/plugin-react
+- tsconfig excludes src/worker/** and includes vite/client types
