@@ -22,7 +22,5 @@
     "typescript": "^5.4.0",
     "vite": "^6.3.2"
   },
-  "engines": {
-    "node": ">=18 <=22"
-  }
+  "engines": { "node": ">=18 <=22" }
 }
