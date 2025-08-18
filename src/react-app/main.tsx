@@ -1,10 +1,14 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import App from './App'
-import './index.css'
+import React from "react";
+import ReactDOM from "react-dom/client";
+import { BrowserRouter } from "react-router-dom";
+import App from "./App";
+import "@/react-app/index.css"; // keep your global styles import
 
-ReactDOM.createRoot(document.getElementById('root')!).render(
+const rootEl = document.getElementById("root")!;
+ReactDOM.createRoot(rootEl).render(
   <React.StrictMode>
-    <App />
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
   </React.StrictMode>
-)
+);
