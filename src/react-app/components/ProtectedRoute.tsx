@@ -1,21 +1,9 @@
-import { useAuth } from "@getmocha/users-service/react";
-import { Navigate } from "react-router";
-import LoadingSpinner from "./LoadingSpinner";
+import { Navigate } from 'react-router-dom'
+import { useAuth } from '@/shared/AuthContext'
 
-interface ProtectedRouteProps {
-  children: React.ReactNode;
-}
-
-export default function ProtectedRoute({ children }: ProtectedRouteProps) {
-  const { user, isPending } = useAuth();
-
-  if (isPending) {
-    return <LoadingSpinner />;
-  }
-
-  if (!user) {
-    return <Navigate to="/" replace />;
-  }
-
-  return <>{children}</>;
+export default function ProtectedRoute({ children }: { children: JSX.Element }) {
+  const { user, loading } = useAuth()
+  if (loading) return <div className="p-8">Loading…</div>
+  if (!user) return <Navigate to="/" replace />
+  return children
 }
