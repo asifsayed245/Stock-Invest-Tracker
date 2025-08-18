@@ -2,5 +2,5 @@
 @tailwind components;
 @tailwind utilities;
 
-html, body, #root { height: 100%; }
-body { @apply bg-slate-50 text-slate-900 antialiased; }
+/* subtle background */
+body { @apply bg-slate-50; }
