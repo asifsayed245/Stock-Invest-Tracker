@@ -1,30 +1,19 @@
-import { useEffect } from "react";
-import { useAuth } from "@getmocha/users-service/react";
-import { useNavigate } from "react-router";
-import LoadingSpinner from "@/react-app/components/LoadingSpinner";
+import { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { useAuth } from '@/shared/AuthContext'
+import LoadingSpinner from '@/react-app/components/LoadingSpinner'
 
 export default function AuthCallback() {
-  const { exchangeCodeForSessionToken, user } = useAuth();
-  const navigate = useNavigate();
+  const { user, loading } = useAuth()
+  const navigate = useNavigate()
 
   useEffect(() => {
-    const handleAuthCallback = async () => {
-      try {
-        await exchangeCodeForSessionToken();
-      } catch (error) {
-        console.error("Auth callback error:", error);
-        navigate("/");
-      }
-    };
+    // Supabase already parsed the OAuth result (if any).
+    // Once we know loading state, decide where to go.
+    if (loading) return
+    if (user) navigate('/dashboard', { replace: true })
+    else navigate('/', { replace: true })
+  }, [user, loading, navigate])
 
-    handleAuthCallback();
-  }, [exchangeCodeForSessionToken, navigate]);
-
-  useEffect(() => {
-    if (user) {
-      navigate("/dashboard");
-    }
-  }, [user, navigate]);
-
-  return <LoadingSpinner />;
+  return <LoadingSpinner />
 }
