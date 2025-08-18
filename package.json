@@ -2,10 +2,12 @@
   "name": "holdwise",
   "version": "1.0.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.45.4",
@@ -28,5 +30,7 @@
     "typescript": "5.8.3",
     "vite": "6.3.2"
   },
-  "engines": { "node": ">=18 <=22" }
+  "engines": {
+    "node": ">=18 <=22"
+  }
 }
