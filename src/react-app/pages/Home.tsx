@@ -1,105 +1,82 @@
-import { useAuth } from "@getmocha/users-service/react";
-import { useNavigate } from "react-router";
-import { useEffect } from "react";
-import { TrendingUp, Shield, BarChart3, PieChart } from "lucide-react";
+import { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { useAuth } from '@/shared/AuthContext'
+import { TrendingUp, Shield, BarChart3, PieChart } from 'lucide-react'
 
 export default function Home() {
-  const { user, redirectToLogin, isPending } = useAuth();
-  const navigate = useNavigate();
+  const { user, signInWithGoogle, loading } = useAuth()
+  const navigate = useNavigate()
 
   useEffect(() => {
-    if (user) {
-      navigate("/dashboard");
-    }
-  }, [user, navigate]);
+    if (user) navigate('/dashboard', { replace: true })
+  }, [user, navigate])
 
-  if (isPending) {
-    return (
-      <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
-        <div className="animate-pulse">
-          <div className="w-8 h-8 bg-blue-200 rounded-full"></div>
-        </div>
+  const FeatureCard = ({
+    icon: Icon,
+    title,
+    children
+  }: {
+    icon: React.ComponentType<{ className?: string }>
+    title: string
+    children: React.ReactNode
+  }) => (
+    <div className="rounded-2xl p-6 bg-white shadow-sm ring-1 ring-slate-200">
+      <div className="w-10 h-10 rounded-xl bg-indigo-50 flex items-center justify-center">
+        <Icon className="w-5 h-5 text-indigo-600" />
       </div>
-    );
-  }
+      <h3 className="mt-4 font-semibold">{title}</h3>
+      <p className="mt-2 text-sm text-slate-600">{children}</p>
+    </div>
+  )
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
-      {/* Hero Section */}
-      <div className="relative overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16">
-          <div className="text-center">
-            <h1 className="text-5xl md:text-6xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 bg-clip-text text-transparent mb-6">
-              HoldWise
-            </h1>
-            <p className="text-xl md:text-2xl text-slate-600 mb-8 max-w-3xl mx-auto">
-              Your personal stock portfolio & transaction tracker. Centralize trades, analyze performance, and make smarter investment decisions.
-            </p>
-            <button
-              onClick={redirectToLogin}
-              className="inline-flex items-center px-8 py-4 text-lg font-semibold text-white bg-gradient-to-r from-blue-600 to-indigo-600 rounded-xl hover:from-blue-700 hover:to-indigo-700 transform hover:scale-105 transition-all duration-200 shadow-lg hover:shadow-xl"
-            >
-              <TrendingUp className="w-5 h-5 mr-2" />
-              Get Started Free
-            </button>
-          </div>
-        </div>
-      </div>
+    <main>
+      <header className="pt-16 pb-10 text-center">
+        <h1 className="text-5xl font-extrabold tracking-tight text-slate-900">HoldWise</h1>
+        <p className="mt-5 max-w-3xl mx-auto text-slate-600">
+          Your personal stock portfolio & transaction tracker. Centralize trades, analyze performance, and make smarter investment decisions.
+        </p>
+        <button
+          disabled={loading}
+          onClick={signInWithGoogle}
+          className="mt-8 inline-flex items-center px-6 py-3 rounded-xl bg-indigo-600 text-white font-semibold shadow hover:bg-indigo-500 disabled:opacity-50"
+        >
+          ⚡ Get Started Free
+        </button>
+      </header>
 
-      {/* Features Section */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          <div className="text-center p-6 bg-white/60 backdrop-blur-sm rounded-2xl border border-white/20 shadow-lg">
-            <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-xl flex items-center justify-center mx-auto mb-4">
-              <BarChart3 className="w-6 h-6 text-white" />
-            </div>
-            <h3 className="text-lg font-semibold text-slate-800 mb-2">Portfolio Tracking</h3>
-            <p className="text-slate-600 text-sm">Monitor your investments with real-time portfolio valuation and performance metrics.</p>
-          </div>
+      <section className="max-w-6xl mx-auto px-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <FeatureCard icon={TrendingUp} title="Portfolio Tracking">
+          Monitor your investments with real-time portfolio valuation and performance metrics.
+        </FeatureCard>
+        <FeatureCard icon={BarChart3} title="P&L Analytics">
+          Comprehensive profit & loss analysis with realized and unrealized gains tracking.
+        </FeatureCard>
+        <FeatureCard icon={PieChart} title="Allocation Insights">
+          Visualize your portfolio allocation across sectors and asset classes.
+        </FeatureCard>
+        <FeatureCard icon={Shield} title="Secure & Private">
+          Bank-level security with encrypted data and privacy-first design.
+        </FeatureCard>
+      </section>
 
-          <div className="text-center p-6 bg-white/60 backdrop-blur-sm rounded-2xl border border-white/20 shadow-lg">
-            <div className="w-12 h-12 bg-gradient-to-r from-green-500 to-emerald-500 rounded-xl flex items-center justify-center mx-auto mb-4">
-              <TrendingUp className="w-6 h-6 text-white" />
-            </div>
-            <h3 className="text-lg font-semibold text-slate-800 mb-2">P&L Analytics</h3>
-            <p className="text-slate-600 text-sm">Comprehensive profit & loss analysis with realized and unrealized gains tracking.</p>
-          </div>
-
-          <div className="text-center p-6 bg-white/60 backdrop-blur-sm rounded-2xl border border-white/20 shadow-lg">
-            <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl flex items-center justify-center mx-auto mb-4">
-              <PieChart className="w-6 h-6 text-white" />
-            </div>
-            <h3 className="text-lg font-semibold text-slate-800 mb-2">Allocation Insights</h3>
-            <p className="text-slate-600 text-sm">Visualize your portfolio allocation across sectors and asset classes.</p>
-          </div>
-
-          <div className="text-center p-6 bg-white/60 backdrop-blur-sm rounded-2xl border border-white/20 shadow-lg">
-            <div className="w-12 h-12 bg-gradient-to-r from-orange-500 to-red-500 rounded-xl flex items-center justify-center mx-auto mb-4">
-              <Shield className="w-6 h-6 text-white" />
-            </div>
-            <h3 className="text-lg font-semibold text-slate-800 mb-2">Secure & Private</h3>
-            <p className="text-slate-600 text-sm">Bank-level security with encrypted data and privacy-first design.</p>
-          </div>
-        </div>
-      </div>
-
-      {/* CTA Section */}
-      <div className="bg-gradient-to-r from-blue-600 to-indigo-600 py-16">
-        <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-            Start tracking your investments today
-          </h2>
-          <p className="text-xl text-blue-100 mb-8">
+      <section className="mt-14 py-12 bg-gradient-to-r from-indigo-600 to-blue-600 text-white">
+        <div className="max-w-4xl mx-auto text-center px-6">
+          <h2 className="text-3xl font-bold">Start tracking your investments today</h2>
+          <p className="mt-3 opacity-90">
             Join thousands of investors who trust HoldWise to manage their portfolios
           </p>
           <button
-            onClick={redirectToLogin}
-            className="inline-flex items-center px-8 py-4 text-lg font-semibold text-blue-600 bg-white rounded-xl hover:bg-blue-50 transform hover:scale-105 transition-all duration-200 shadow-lg hover:shadow-xl"
+            disabled={loading}
+            onClick={signInWithGoogle}
+            className="mt-8 inline-flex items-center px-6 py-3 rounded-xl bg-white/95 text-indigo-700 font-semibold shadow hover:bg-white disabled:opacity-60"
           >
             Sign Up with Google
           </button>
         </div>
-      </div>
-    </div>
-  );
+      </section>
+
+      <footer className="text-center text-sm text-slate-500 py-8">© {new Date().getFullYear()} HoldWise</footer>
+    </main>
+  )
 }
