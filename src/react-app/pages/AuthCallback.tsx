@@ -1,16 +1,18 @@
-import { useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { useAuth } from '@/shared/AuthContext'
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { supabase } from "../lib/supabaseClient";
 
 export default function AuthCallback() {
-  const { user, loading } = useAuth()
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   useEffect(() => {
-    if (loading) return
-    if (user) navigate('/dashboard', { replace: true })
-    else navigate('/', { replace: true })
-  }, [user, loading, navigate])
+    // Supabase will already have parsed the URL fragment if detectSessionInUrl: true
+    // We just send the user to dashboard when session is ready.
+    supabase.auth.getSession().then(({ data }) => {
+      if (data.session) navigate("/dashboard", { replace: true });
+      else navigate("/", { replace: true });
+    });
+  }, [navigate]);
 
-  return <div className="p-6 text-slate-500">Signing you in…</div>
+  return null;
 }
