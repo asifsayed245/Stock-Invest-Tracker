@@ -1,40 +1,28 @@
-import { NavLink } from 'react-router-dom'
-import UserMenu from '@/react-app/components/UserMenu'
-
-function Tab({ to, children }: { to: string; children: React.ReactNode }) {
-  return (
-    <NavLink
-      to={to}
-      className={({ isActive }) =>
-        'px-3 py-2 rounded-lg text-sm font-medium ' +
-        (isActive ? 'bg-indigo-100 text-indigo-700' : 'text-slate-600 hover:bg-slate-100')
-      }
-    >
-      {children}
-    </NavLink>
-  )
-}
+import { Link, NavLink } from 'react-router-dom'
+import { useAuth } from '@/shared/AuthContext'
 
 export default function Layout({ children }: { children: React.ReactNode }) {
+  const { user, signOut } = useAuth()
+
   return (
     <div className="min-h-screen bg-slate-50">
-      <header className="bg-white border-b border-slate-200">
-        <div className="max-w-6xl mx-auto px-6 h-14 flex items-center justify-between">
-          <div className="flex items-center gap-6">
-            <div className="font-bold text-indigo-600">HoldWise</div>
-            <nav className="flex items-center gap-1">
-              <Tab to="/dashboard">Dashboard</Tab>
-              <Tab to="/transactions">Transactions</Tab>
-              <Tab to="/pl-explorer">P/L Explorer</Tab>
-              <Tab to="/uploads">Uploads</Tab>
-              <Tab to="/settings">Settings</Tab>
-            </nav>
-          </div>
-          <UserMenu />
+      <header className="border-b bg-white">
+        <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
+          <Link to="/" className="text-xl font-semibold text-indigo-600">HoldWise</Link>
+          <nav className="flex items-center gap-4 text-sm">
+            <NavLink to="/dashboard" className={({isActive}) => isActive ? 'text-indigo-600 font-medium' : 'text-slate-600 hover:text-slate-900'}>Dashboard</NavLink>
+            <NavLink to="/transactions" className={({isActive}) => isActive ? 'text-indigo-600 font-medium' : 'text-slate-600 hover:text-slate-900'}>Transactions</NavLink>
+            <NavLink to="/pl" className={({isActive}) => isActive ? 'text-indigo-600 font-medium' : 'text-slate-600 hover:text-slate-900'}>P/L Explorer</NavLink>
+            {user && (
+              <button onClick={signOut} className="rounded-md bg-slate-100 px-3 py-1.5 text-slate-700 hover:bg-slate-200">
+                Sign out
+              </button>
+            )}
+          </nav>
         </div>
       </header>
-
-      <main className="max-w-6xl mx-auto p-6">{children}</main>
+      <main className="mx-auto max-w-6xl px-4 py-8">{children}</main>
+      <footer className="py-10 text-center text-xs text-slate-400">© {new Date().getFullYear()} HoldWise</footer>
     </div>
   )
 }
