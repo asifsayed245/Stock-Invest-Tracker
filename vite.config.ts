@@ -7,10 +7,6 @@ export default defineConfig({
   resolve: {
     alias: { '@': fileURLToPath(new URL('./src', import.meta.url)) }
   },
-  base: '/',
-  build: {
-    outDir: 'dist',
-    emptyOutDir: true
-    // NOTE: do NOT externalize 'react-is' – it must be bundled
-  }
+  build: { outDir: 'dist', emptyOutDir: true },
+  base: '/'
 })
