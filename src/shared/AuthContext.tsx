@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from 'react'
 import { supabase } from './supabaseClient'
-import type { Session, User } from '@supabase/supabase-js'
+import type { User } from '@supabase/supabase-js'
 
 type AuthCtx = {
   user: User | null
@@ -28,15 +28,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setUser(data.session?.user ?? null)
       setLoading(false)
     })
-
-    const { data: sub } = supabase.auth.onAuthStateChange((_e, session) => {
+    const { data: sub } = supabase.auth.onAuthStateChange((_event, session) => {
       setUser(session?.user ?? null)
     })
     return () => sub.subscription.unsubscribe()
   }, [])
 
   async function signInWithGoogle() {
-    const redirectTo = window.location.origin // Supabase will return to this URL
+    const redirectTo = window.location.origin // come back to the landing
     await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: { redirectTo }
@@ -45,7 +44,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   async function signOut() {
     await supabase.auth.signOut()
-    window.location.href = '/' // back to landing
+    window.location.href = '/'
   }
 
   return (
