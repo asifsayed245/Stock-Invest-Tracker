@@ -11,21 +11,17 @@ export default function Home() {
     if (user) navigate('/dashboard', { replace: true })
   }, [user, navigate])
 
-  const FeatureCard = ({
+  const Feature = ({
     icon: Icon,
     title,
     children
-  }: {
-    icon: React.ComponentType<{ className?: string }>
-    title: string
-    children: React.ReactNode
-  }) => (
+  }: { icon: any; title: string; children: React.ReactNode }) => (
     <div className="rounded-2xl p-6 bg-white shadow-sm ring-1 ring-slate-200">
-      <div className="w-10 h-10 rounded-xl bg-indigo-50 flex items-center justify-center">
+      <div className="w-10 h-10 rounded-xl bg-indigo-50 grid place-items-center">
         <Icon className="w-5 h-5 text-indigo-600" />
       </div>
-      <h3 className="mt-4 font-semibold">{title}</h3>
-      <p className="mt-2 text-sm text-slate-600">{children}</p>
+      <div className="mt-3 font-semibold">{title}</div>
+      <div className="mt-1 text-sm text-slate-600">{children}</div>
     </div>
   )
 
@@ -34,7 +30,8 @@ export default function Home() {
       <header className="pt-16 pb-10 text-center">
         <h1 className="text-5xl font-extrabold tracking-tight text-slate-900">HoldWise</h1>
         <p className="mt-5 max-w-3xl mx-auto text-slate-600">
-          Your personal stock portfolio & transaction tracker. Centralize trades, analyze performance, and make smarter investment decisions.
+          Your personal stock portfolio & transaction tracker. Centralize trades,
+          analyze performance, and make smarter investment decisions.
         </p>
         <button
           disabled={loading}
@@ -46,26 +43,24 @@ export default function Home() {
       </header>
 
       <section className="max-w-6xl mx-auto px-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-        <FeatureCard icon={TrendingUp} title="Portfolio Tracking">
-          Monitor your investments with real-time portfolio valuation and performance metrics.
-        </FeatureCard>
-        <FeatureCard icon={BarChart3} title="P&L Analytics">
-          Comprehensive profit & loss analysis with realized and unrealized gains tracking.
-        </FeatureCard>
-        <FeatureCard icon={PieChart} title="Allocation Insights">
-          Visualize your portfolio allocation across sectors and asset classes.
-        </FeatureCard>
-        <FeatureCard icon={Shield} title="Secure & Private">
-          Bank-level security with encrypted data and privacy-first design.
-        </FeatureCard>
+        <Feature icon={TrendingUp} title="Portfolio Tracking">
+          Monitor valuation & performance metrics in one place.
+        </Feature>
+        <Feature icon={BarChart3} title="P&L Analytics">
+          Realized & unrealized P/L with presets and custom ranges.
+        </Feature>
+        <Feature icon={PieChart} title="Allocation Insights">
+          View sector and asset allocation trends.
+        </Feature>
+        <Feature icon={Shield} title="Secure & Private">
+          Modern auth, encrypted data, privacy-first design.
+        </Feature>
       </section>
 
       <section className="mt-14 py-12 bg-gradient-to-r from-indigo-600 to-blue-600 text-white">
         <div className="max-w-4xl mx-auto text-center px-6">
           <h2 className="text-3xl font-bold">Start tracking your investments today</h2>
-          <p className="mt-3 opacity-90">
-            Join thousands of investors who trust HoldWise to manage their portfolios
-          </p>
+          <p className="mt-3 opacity-90">Join investors who trust HoldWise</p>
           <button
             disabled={loading}
             onClick={signInWithGoogle}
@@ -76,7 +71,9 @@ export default function Home() {
         </div>
       </section>
 
-      <footer className="text-center text-sm text-slate-500 py-8">© {new Date().getFullYear()} HoldWise</footer>
+      <footer className="text-center text-sm text-slate-500 py-8">
+        © {new Date().getFullYear()} HoldWise
+      </footer>
     </main>
   )
 }
