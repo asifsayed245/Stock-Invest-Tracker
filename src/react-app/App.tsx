@@ -1,5 +1,5 @@
 import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
-import Home from "./pages/Home";               // your landing page component
+iimport { Home } from "./pages/Home";               // your landing page component
 import Dashboard from "./pages/Dashboard";     // your dashboard page
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import AuthCallback from "./pages/AuthCallback"; // optional; see below
