@@ -1,55 +1,56 @@
-import React, { createContext, useContext, useEffect, useState } from 'react'
+import { createContext, useContext, useEffect, useState, ReactNode } from 'react'
+import { Session, User } from '@supabase/supabase-js'
 import { supabase } from './supabaseClient'
-import type { User } from '@supabase/supabase-js'
 
-type AuthCtx = {
+type AuthContextType = {
   user: User | null
   loading: boolean
   signInWithGoogle: () => Promise<void>
   signOut: () => Promise<void>
 }
 
-const Ctx = createContext<AuthCtx>({
+const AuthContext = createContext<AuthContextType>({
   user: null,
   loading: true,
   signInWithGoogle: async () => {},
-  signOut: async () => {}
+  signOut: async () => {},
 })
 
-export const useAuth = () => useContext(Ctx)
-
-export function AuthProvider({ children }: { children: React.ReactNode }) {
+export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    // Load current session, then subscribe to auth changes
-    supabase.auth.getSession().then(({ data }) => {
+    const init = async () => {
+      const { data } = await supabase.auth.getSession()
       setUser(data.session?.user ?? null)
       setLoading(false)
-    })
-    const { data: sub } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUser(session?.user ?? null)
+    }
+    init()
+
+    const { data: sub } = supabase.auth.onAuthStateChange((_e, s) => {
+      setUser(s?.user ?? null)
     })
     return () => sub.subscription.unsubscribe()
   }, [])
 
-  async function signInWithGoogle() {
-    const redirectTo = window.location.origin // come back to the landing
-    await supabase.auth.signInWithOAuth({
+  const signInWithGoogle = async () => {
+    const { error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
-      options: { redirectTo }
+      options: { redirectTo: `${window.location.origin}/dashboard` },
     })
+    if (error) throw error
   }
 
-  async function signOut() {
+  const signOut = async () => {
     await supabase.auth.signOut()
-    window.location.href = '/'
   }
 
   return (
-    <Ctx.Provider value={{ user, loading, signInWithGoogle, signOut }}>
+    <AuthContext.Provider value={{ user, loading, signInWithGoogle, signOut }}>
       {children}
-    </Ctx.Provider>
+    </AuthContext.Provider>
   )
 }
+
+export const useAuth = () => useContext(AuthContext)
