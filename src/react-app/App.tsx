@@ -1,8 +1,35 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Navigate, useNavigate } from 'react-router-dom'
 import { AuthProvider, useAuth } from '@/shared/AuthContext'
+import { Shield, PieChart, TrendingUp, BarChart3 } from 'lucide-react'
 
 function Landing() {
-  const { signInWithGoogle } = useAuth()
+  const { signInWithGoogle, user } = useAuth()
+  const navigate = useNavigate()
+
+  // If the user returns from Google and is authenticated, go straight to dashboard
+  React.useEffect(() => {
+    if (user) navigate('/dashboard', { replace: true })
+  }, [user, navigate])
+
+  const Feature = ({
+    icon,
+    title,
+    desc,
+    color
+  }: {
+    icon: React.ReactNode
+    title: string
+    desc: string
+    color: string
+  }) => (
+    <div className="rounded-2xl bg-white shadow-sm border border-slate-100 p-6 text-left hover:shadow-md transition">
+      <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${color} text-white`}>
+        {icon}
+      </div>
+      <h3 className="mt-4 font-semibold text-slate-900">{title}</h3>
+      <p className="mt-2 text-sm text-slate-600">{desc}</p>
+    </div>
+  )
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-indigo-50 to-white">
@@ -29,41 +56,30 @@ function Landing() {
       {/* FEATURES */}
       <section className="max-w-6xl mx-auto px-6 pb-16">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {[
-            {
-              title: 'Portfolio Tracking',
-              desc:
-                'Monitor your investments with real-time portfolio valuation and performance metrics.',
-              icon: '📊',
-            },
-            {
-              title: 'P&L Analytics',
-              desc:
-                'Comprehensive profit & loss analysis with realized and unrealized gains tracking.',
-              icon: '📈',
-            },
-            {
-              title: 'Allocation Insights',
-              desc:
-                'Visualize your portfolio allocation across sectors and asset classes.',
-              icon: '🧭',
-            },
-            {
-              title: 'Secure & Private',
-              desc:
-                'Bank-level security with encrypted data and privacy-first design.',
-              icon: '🛡️',
-            },
-          ].map((f) => (
-            <div
-              key={f.title}
-              className="rounded-2xl bg-white shadow-sm border border-slate-100 p-6 text-left hover:shadow-md transition"
-            >
-              <div className="text-2xl">{f.icon}</div>
-              <h3 className="mt-3 font-semibold text-slate-900">{f.title}</h3>
-              <p className="mt-2 text-sm text-slate-600">{f.desc}</p>
-            </div>
-          ))}
+          <Feature
+            icon={<BarChart3 className="w-5 h-5" />}
+            title="Portfolio Tracking"
+            desc="Monitor your investments with real-time valuation and performance metrics."
+            color="bg-indigo-500"
+          />
+          <Feature
+            icon={<TrendingUp className="w-5 h-5" />}
+            title="P&L Analytics"
+            desc="Comprehensive profit & loss analysis for realized and unrealized gains."
+            color="bg-emerald-500"
+          />
+          <Feature
+            icon={<PieChart className="w-5 h-5" />}
+            title="Allocation Insights"
+            desc="Visualize allocation across sectors and asset classes."
+            color="bg-fuchsia-500"
+          />
+          <Feature
+            icon={<Shield className="w-5 h-5" />}
+            title="Secure & Private"
+            desc="Encrypted data with a privacy-first design."
+            color="bg-orange-500"
+          />
         </div>
       </section>
 
@@ -100,10 +116,19 @@ function Protected({ children }: { children: JSX.Element }) {
 }
 
 function Dashboard() {
+  const { signOut } = useAuth()
   return (
     <div className="max-w-5xl mx-auto px-6 py-10">
-      <h1 className="text-2xl font-bold">Dashboard</h1>
-      <p className="mt-2 text-slate-600">You’re signed in. Dashboard content goes here.</p>
+      <div className="flex items-center justify-between">
+        <h1 className="text-2xl font-bold">Dashboard</h1>
+        <button
+          onClick={signOut}
+          className="px-4 py-2 rounded-lg bg-slate-200 hover:bg-slate-300"
+        >
+          Sign out
+        </button>
+      </div>
+      <p className="mt-4 text-slate-600">You’re signed in. Your app features go here.</p>
     </div>
   )
 }
