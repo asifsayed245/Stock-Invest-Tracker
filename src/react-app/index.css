@@ -2,5 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
-/* subtle background */
-body { @apply bg-slate-50; }
+/* App shell */
+html, body, #root {
+  height: 100%;
+}
+
+/* nice subtle gradient bg for hero */
+.hero-bg {
+  background: radial-gradient(1200px 600px at 50% -10%, rgba(124,58,237,0.18), transparent 60%),
+              linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
+}
