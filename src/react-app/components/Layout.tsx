@@ -1,105 +1,40 @@
-import { NavLink } from "react-router";
-import { LayoutDashboard, Receipt, TrendingUp, Upload, Menu, X, Settings } from "lucide-react";
-import { useState } from "react";
-import UserMenu from "./UserMenu";
+import { NavLink } from 'react-router-dom'
+import UserMenu from '@/react-app/components/UserMenu'
 
-interface LayoutProps {
-  children: React.ReactNode;
+function Tab({ to, children }: { to: string; children: React.ReactNode }) {
+  return (
+    <NavLink
+      to={to}
+      className={({ isActive }) =>
+        'px-3 py-2 rounded-lg text-sm font-medium ' +
+        (isActive ? 'bg-indigo-100 text-indigo-700' : 'text-slate-600 hover:bg-slate-100')
+      }
+    >
+      {children}
+    </NavLink>
+  )
 }
 
-export default function Layout({ children }: LayoutProps) {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
-  const navigation = [
-    { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
-    { name: "Transactions", href: "/transactions", icon: Receipt },
-    { name: "P&L Explorer", href: "/pl-explorer", icon: TrendingUp },
-    { name: "Uploads", href: "/uploads", icon: Upload },
-    { name: "Admin", href: "/admin", icon: Settings },
-  ];
-
+export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <div className="min-h-screen bg-slate-50">
-      {/* Header */}
-      <header className="bg-white border-b border-slate-200 sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            {/* Logo */}
-            <div className="flex items-center">
-              <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-                HoldWise
-              </h1>
-            </div>
-
-            {/* Desktop Navigation */}
-            <nav className="hidden md:flex space-x-8">
-              {navigation.map((item) => (
-                <NavLink
-                  key={item.name}
-                  to={item.href}
-                  className={({ isActive }) =>
-                    `inline-flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-colors ${
-                      isActive
-                        ? "bg-blue-50 text-blue-700"
-                        : "text-slate-600 hover:text-slate-900 hover:bg-slate-50"
-                    }`
-                  }
-                >
-                  <item.icon className="w-4 h-4 mr-2" />
-                  {item.name}
-                </NavLink>
-              ))}
+      <header className="bg-white border-b border-slate-200">
+        <div className="max-w-6xl mx-auto px-6 h-14 flex items-center justify-between">
+          <div className="flex items-center gap-6">
+            <div className="font-bold text-indigo-600">HoldWise</div>
+            <nav className="flex items-center gap-1">
+              <Tab to="/dashboard">Dashboard</Tab>
+              <Tab to="/transactions">Transactions</Tab>
+              <Tab to="/pl-explorer">P/L Explorer</Tab>
+              <Tab to="/uploads">Uploads</Tab>
+              <Tab to="/settings">Settings</Tab>
             </nav>
-
-            {/* User Menu */}
-            <div className="flex items-center space-x-4">
-              <UserMenu />
-
-              {/* Mobile menu button */}
-              <button
-                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                className="md:hidden inline-flex items-center justify-center p-2 rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-50"
-              >
-                {isMobileMenuOpen ? (
-                  <X className="w-5 h-5" />
-                ) : (
-                  <Menu className="w-5 h-5" />
-                )}
-              </button>
-            </div>
           </div>
+          <UserMenu />
         </div>
-
-        {/* Mobile Navigation */}
-        {isMobileMenuOpen && (
-          <div className="md:hidden">
-            <div className="px-2 pt-2 pb-3 space-y-1 bg-white border-t border-slate-200">
-              {navigation.map((item) => (
-                <NavLink
-                  key={item.name}
-                  to={item.href}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className={({ isActive }) =>
-                    `flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-colors ${
-                      isActive
-                        ? "bg-blue-50 text-blue-700"
-                        : "text-slate-600 hover:text-slate-900 hover:bg-slate-50"
-                    }`
-                  }
-                >
-                  <item.icon className="w-4 h-4 mr-3" />
-                  {item.name}
-                </NavLink>
-              ))}
-            </div>
-          </div>
-        )}
       </header>
 
-      {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {children}
-      </main>
+      <main className="max-w-6xl mx-auto p-6">{children}</main>
     </div>
-  );
+  )
 }
