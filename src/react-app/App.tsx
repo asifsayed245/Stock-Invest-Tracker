@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { BrowserRouter, Routes, Route, Navigate, useNavigate } from 'react-router-dom'
 import { AuthProvider, useAuth } from '@/shared/AuthContext'
 import { Shield, PieChart, TrendingUp, BarChart3 } from 'lucide-react'
@@ -6,8 +7,8 @@ function Landing() {
   const { signInWithGoogle, user } = useAuth()
   const navigate = useNavigate()
 
-  // If the user returns from Google and is authenticated, go straight to dashboard
-  React.useEffect(() => {
+  // Redirect to dashboard right after Google returns and the session exists
+  useEffect(() => {
     if (user) navigate('/dashboard', { replace: true })
   }, [user, navigate])
 
@@ -89,7 +90,7 @@ function Landing() {
           <h2 className="text-3xl sm:text-4xl font-extrabold">
             Start tracking your investments today
           </h2>
-          <p className="mt-3 text-indigo-100">
+        <p className="mt-3 text-indigo-100">
             Join thousands of investors who trust HoldWise to manage their portfolios
           </p>
           <button
