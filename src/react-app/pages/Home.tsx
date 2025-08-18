@@ -1,79 +1,50 @@
-import { useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { useAuth } from '@/shared/AuthContext'
-import { TrendingUp, Shield, BarChart3, PieChart } from 'lucide-react'
+import Layout from '@/react-app/components/Layout'
 
 export default function Home() {
-  const { user, signInWithGoogle, loading } = useAuth()
-  const navigate = useNavigate()
-
-  useEffect(() => {
-    if (user) navigate('/dashboard', { replace: true })
-  }, [user, navigate])
-
-  const Feature = ({
-    icon: Icon,
-    title,
-    children
-  }: { icon: any; title: string; children: React.ReactNode }) => (
-    <div className="rounded-2xl p-6 bg-white shadow-sm ring-1 ring-slate-200">
-      <div className="w-10 h-10 rounded-xl bg-indigo-50 grid place-items-center">
-        <Icon className="w-5 h-5 text-indigo-600" />
-      </div>
-      <div className="mt-3 font-semibold">{title}</div>
-      <div className="mt-1 text-sm text-slate-600">{children}</div>
-    </div>
-  )
+  const { user, signInWithGoogle } = useAuth()
 
   return (
-    <main>
-      <header className="pt-16 pb-10 text-center">
-        <h1 className="text-5xl font-extrabold tracking-tight text-slate-900">HoldWise</h1>
-        <p className="mt-5 max-w-3xl mx-auto text-slate-600">
-          Your personal stock portfolio & transaction tracker. Centralize trades,
-          analyze performance, and make smarter investment decisions.
+    <Layout>
+      <section className="mx-auto max-w-4xl py-8 text-center">
+        <h1 className="text-5xl font-extrabold tracking-tight text-indigo-600">HoldWise</h1>
+        <p className="mx-auto mt-4 max-w-2xl text-lg text-slate-600">
+          Your personal stock portfolio & transaction tracker. Centralize trades, analyze performance, and make smarter investment decisions.
         </p>
-        <button
-          disabled={loading}
-          onClick={signInWithGoogle}
-          className="mt-8 inline-flex items-center px-6 py-3 rounded-xl bg-indigo-600 text-white font-semibold shadow hover:bg-indigo-500 disabled:opacity-50"
-        >
-          ⚡ Get Started Free
-        </button>
-      </header>
-
-      <section className="max-w-6xl mx-auto px-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-        <Feature icon={TrendingUp} title="Portfolio Tracking">
-          Monitor valuation & performance metrics in one place.
-        </Feature>
-        <Feature icon={BarChart3} title="P&L Analytics">
-          Realized & unrealized P/L with presets and custom ranges.
-        </Feature>
-        <Feature icon={PieChart} title="Allocation Insights">
-          View sector and asset allocation trends.
-        </Feature>
-        <Feature icon={Shield} title="Secure & Private">
-          Modern auth, encrypted data, privacy-first design.
-        </Feature>
-      </section>
-
-      <section className="mt-14 py-12 bg-gradient-to-r from-indigo-600 to-blue-600 text-white">
-        <div className="max-w-4xl mx-auto text-center px-6">
-          <h2 className="text-3xl font-bold">Start tracking your investments today</h2>
-          <p className="mt-3 opacity-90">Join investors who trust HoldWise</p>
-          <button
-            disabled={loading}
-            onClick={signInWithGoogle}
-            className="mt-8 inline-flex items-center px-6 py-3 rounded-xl bg-white/95 text-indigo-700 font-semibold shadow hover:bg-white disabled:opacity-60"
-          >
-            Sign Up with Google
-          </button>
+        <div className="mt-6">
+          {!user ? (
+            <button onClick={signInWithGoogle} className="rounded-lg bg-indigo-600 px-5 py-3 text-white hover:bg-indigo-700">
+              Get Started Free
+            </button>
+          ) : (
+            <a href="/dashboard" className="rounded-lg bg-indigo-600 px-5 py-3 text-white hover:bg-indigo-700">Go to Dashboard</a>
+          )}
         </div>
       </section>
 
-      <footer className="text-center text-sm text-slate-500 py-8">
-        © {new Date().getFullYear()} HoldWise
-      </footer>
-    </main>
+      <section className="mx-auto grid max-w-6xl grid-cols-1 gap-6 md:grid-cols-4">
+        {[
+          { t: 'Portfolio Tracking', d: 'Monitor valuation & metrics' },
+          { t: 'P&L Analytics', d: 'Realized/unrealized gains' },
+          { t: 'Allocation Insights', d: 'Sectors & asset classes' },
+          { t: 'Secure & Private', d: 'Modern auth & encryption' },
+        ].map((c) => (
+          <div key={c.t} className="rounded-xl border bg-white p-5 shadow-sm">
+            <div className="font-semibold">{c.t}</div>
+            <div className="mt-1 text-sm text-slate-500">{c.d}</div>
+          </div>
+        ))}
+      </section>
+
+      <section className="mt-10 rounded-2xl bg-gradient-to-r from-indigo-600 to-blue-600 p-10 text-center text-white">
+        <h2 className="text-2xl font-bold">Start tracking your investments today</h2>
+        <p className="mt-2 text-indigo-100">Join thousands of investors who trust HoldWise to manage their portfolios</p>
+        {!user && (
+          <button onClick={signInWithGoogle} className="mt-5 rounded-lg bg-white px-5 py-3 text-indigo-700 hover:bg-indigo-50">
+            Sign Up with Google
+          </button>
+        )}
+      </section>
+    </Layout>
   )
 }
