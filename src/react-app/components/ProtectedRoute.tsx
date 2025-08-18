@@ -1,37 +1,13 @@
-import { ReactNode, useEffect, useState } from "react";
-import { Navigate } from "react-router-dom";
-import { supabase } from "@/react-app/lib/supabaseClient";
+import { PropsWithChildren } from "react";
+import { Navigate, useLocation } from "react-router-dom";
+import { useSupabaseAuth } from "../lib/SupabaseProvider";
 
-export default function ProtectedRoute({ children }: { children: ReactNode }) {
-  const [loading, setLoading] = useState(true);
-  const [authed, setAuthed] = useState(false);
-
-  useEffect(() => {
-    let mounted = true;
-
-    const run = async () => {
-      const { data } = await supabase.auth.getSession();
-      if (!mounted) return;
-      setAuthed(Boolean(data.session));
-      setLoading(false);
-    };
-
-    run();
-
-    const { data: sub } = supabase.auth.onAuthStateChange((_e, session) => {
-      if (!mounted) return;
-      setAuthed(Boolean(session));
-    });
-
-    return () => {
-      mounted = false;
-      sub?.subscription.unsubscribe();
-    };
-  }, []);
+export function ProtectedRoute({ children }: PropsWithChildren) {
+  const { session, loading } = useSupabaseAuth();
+  const loc = useLocation();
 
   if (loading) return null; // or a spinner
-
-  if (!authed) return <Navigate to="/" replace />;
+  if (!session) return <Navigate to="/" replace state={{ from: loc }} />;
 
   return <>{children}</>;
 }
