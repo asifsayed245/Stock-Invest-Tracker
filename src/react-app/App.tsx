@@ -1,14 +1,14 @@
-import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
-iimport { Home } from "./pages/Home";               // your landing page component
-import Dashboard from "./pages/Dashboard";     // your dashboard page
+import { Routes, Route, Navigate } from "react-router-dom";
+import Home from "./pages/Home";                 // default export (see Home.tsx below)
+import Dashboard from "./pages/Dashboard";
+import AuthCallback from "./pages/AuthCallback";
 import { ProtectedRoute } from "./components/ProtectedRoute";
-import AuthCallback from "./pages/AuthCallback"; // optional; see below
 
 export default function App() {
-  // No Router here. Only define routes.
   return (
     <Routes>
       <Route path="/" element={<Home />} />
+      {/* Supabase OAuth will return here (or directly to "/") */}
       <Route path="/auth/callback" element={<AuthCallback />} />
       <Route
         path="/dashboard"
@@ -18,7 +18,6 @@ export default function App() {
           </ProtectedRoute>
         }
       />
-      {/* catch-all */}
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );
