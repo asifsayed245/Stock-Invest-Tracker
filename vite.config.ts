@@ -10,9 +10,7 @@ export default defineConfig({
   base: '/',
   build: {
     outDir: 'dist',
-    emptyOutDir: true,
-    rollupOptions: {
-      external: ['react-is'] // ensure Rollup doesn't choke on recharts -> react-is
-    }
+    emptyOutDir: true
+    // NOTE: do NOT externalize 'react-is' – it must be bundled
   }
 })
